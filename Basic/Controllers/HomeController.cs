@@ -26,7 +26,7 @@ namespace Basic.Controllers
 
         public IActionResult Autenticate()
         {
-            //Creating claims for a user
+            // Creating claims for a user
             var testClaims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name,"Bob"),
@@ -43,14 +43,14 @@ namespace Basic.Controllers
                 new Claim("DivingLicense","A+"),
             };
 
-            //Add identity for a Claim
+            // Add identity for a Claim
             var testClaimIdentity = new ClaimsIdentity(testClaims, "Test Identity");
             var licenseClaimIdentity = new ClaimsIdentity(licenseClaims, "Governtment");
             //Add identity principle
             var userPrinciple = new ClaimsPrincipal(new[] { testClaimIdentity , licenseClaimIdentity });
 
-
-            //Add user principle to the contex 
+            // ----------------------------------------------------
+            // Add user principle to the contex 
             HttpContext.SignInAsync(userPrinciple);
 
             return RedirectToAction("Index");
