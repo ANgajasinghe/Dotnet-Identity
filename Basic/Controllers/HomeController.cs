@@ -13,6 +13,13 @@ namespace Basic.Controllers
    
     public class HomeController : Controller
     {
+        private readonly IAuthorizationService _authorizationService;
+
+        // Authorization by using IAuthoriationService
+        public HomeController(IAuthorizationService authorizationService)
+        {
+            _authorizationService = authorizationService; 
+        }
         public IActionResult Index() 
         {
             return View();
@@ -78,6 +85,22 @@ namespace Basic.Controllers
             HttpContext.SignInAsync(userPrinciple);
 
             return RedirectToAction("Index");
+        }
+
+
+        public async Task<IActionResult> DoStuff() 
+        {
+            // Check Authentication in inside the method
+            var builder = new AuthorizationPolicyBuilder("Schema");
+            var customPolicy = builder.RequireClaim("Hello").Build();
+
+            var authResult = await _authorizationService.AuthorizeAsync(User, customPolicy);
+
+            if (authResult.Succeeded)
+            {
+                return View("Index");
+            }
+            return View("Index");
         }
     }
 }
