@@ -24,6 +24,30 @@ namespace Basic.Controllers
             return View();
         }
 
+        [Authorize(Policy = "Claim.DoB")]
+        public IActionResult SecretPolicy()
+        {
+            return View("Secret");
+        }
+
+        /// <summary>
+        /// Role is just a Claim and it legercy 
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin")]
+        public IActionResult SecretRole()
+        {
+            return View("Secret");
+        }
+
+
+        [Authorize(Policy = "AdminPolicy")]
+        public IActionResult SecretRolePolicy()
+        {
+            return View("Secret");
+        }
+
+
         public IActionResult Autenticate()
         {
             // Creating claims for a user
@@ -31,8 +55,8 @@ namespace Basic.Controllers
             {
                 new Claim(ClaimTypes.Name,"Bob"),
                 new Claim(ClaimTypes.Role,"Admin"),
-                new Claim(ClaimTypes.DateOfBirth,"19981105"),
                 new Claim(ClaimTypes.Email,"bob@bobMail.com"),
+                new Claim(ClaimTypes.DateOfBirth,"199805"),
                 new Claim("Test User Says","You Can Go!"),
             };
 
