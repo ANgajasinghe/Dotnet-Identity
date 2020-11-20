@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -28,7 +29,7 @@ namespace Basic
                     configureOptions.LoginPath = "/Home/Autenticate";
                 });
 
-            services.AddControllersWithViews();
+ 
 
             // This Will Happend Under The Hood IN [Authorize] interface 
             services.AddAuthorization(config =>
@@ -64,6 +65,19 @@ namespace Basic
 
 
             services.AddScoped<IAuthorizationHandler, CustomeRequireClaimHandler>();
+
+            // Globle Auth Builder
+            services.AddControllersWithViews(config => 
+            { 
+               
+                 var defaultAuthBuilder = new AuthorizationPolicyBuilder();
+
+                var defaultAuthPolicy = defaultAuthBuilder
+                    .RequireAuthenticatedUser() // Add all Authrntication stuff to your application
+                    .RequireClaim(ClaimTypes.DateOfBirth) // If this Claim not included your cookie you cannot visit the site
+                    .Build();
+                config.Filters.Add(new AuthorizeFilter(defaultAuthPolicy));
+            });
 
         }
 
