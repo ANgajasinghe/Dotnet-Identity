@@ -56,6 +56,10 @@ namespace Basic.Controllers
         }
 
 
+        /// <summary>
+        /// Called by the startup
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Autenticate()
         {
             // Creating claims for a user
@@ -84,7 +88,12 @@ namespace Basic.Controllers
 
             // ----------------------------------------------------
             // Add user principle to the contex 
-            HttpContext.SignInAsync(userPrinciple);
+            AuthenticationProperties authenticationProperties = new()
+            {
+                IssuedUtc = DateTime.UtcNow,
+                ExpiresUtc = DateTime.UtcNow.AddSeconds(30)
+            };
+            HttpContext.SignInAsync(userPrinciple,a);
 
             return RedirectToAction("Index");
         }
