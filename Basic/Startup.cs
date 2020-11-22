@@ -44,7 +44,7 @@ namespace Basic
                 //config.DefaultPolicy = defaultAuthPolicy;
 
 
-                // ADDING CUSTOME REQUIRE CLAIM
+                // ADDING CUSTOME REQUIRE CLAIM  - Normal way
                 //config.AddPolicy("Claim.DoB", policyBuilder =>
                 //{
                 //    policyBuilder.RequireClaim(ClaimTypes.DateOfBirth);
@@ -52,11 +52,14 @@ namespace Basic
 
 
 
+                // ADDING CUSTOME REQUIRE CLAIM - Normal way
                 config.AddPolicy("AdminPolicy", policyBuilder => policyBuilder.RequireClaim(ClaimTypes.Role, "Admin"));
 
+                // // ADDING CUSTOME REQUIRE CLAIM - Using Separate method
                 config.AddPolicy("Claim.DoB", policyBuilder =>
                 {
                     // Custom Initialization with separate method BUT SAME IMPLEMETATION
+                    // Called to CustomeRequireClaim=>AuthorizationPolicyBuilderExtensions
                     policyBuilder.RequireCustomeClaim(ClaimTypes.DateOfBirth);
                 });
 
@@ -66,19 +69,25 @@ namespace Basic
 
             services.AddScoped<IAuthorizationHandler, CustomeRequireClaimHandler>();
 
+            // added operation
+            services.AddScoped<IAuthorizationHandler, CookieJarAuthorizationHandler>();
+
             // Globle Auth Builder
-            services.AddControllersWithViews(config => 
-            { 
-               
-                 var defaultAuthBuilder = new AuthorizationPolicyBuilder();
+            //services.AddControllersWithViews(config => 
+            //{ 
 
-                var defaultAuthPolicy = defaultAuthBuilder
-                    .RequireAuthenticatedUser() // Add all Authrntication stuff to your application
-                    .RequireClaim(ClaimTypes.DateOfBirth) // If this Claim not included your cookie you cannot visit the site
-                    .Build();
-                config.Filters.Add(new AuthorizeFilter(defaultAuthPolicy));
-            });
+            //     var defaultAuthBuilder = new AuthorizationPolicyBuilder();
 
+            //    var defaultAuthPolicy = defaultAuthBuilder
+            //        .RequireAuthenticatedUser() // Add all Authrntication stuff to your application
+            //        .RequireClaim(ClaimTypes.DateOfBirth) // If this Claim not included your cookie you cannot visit the site
+            //        .Build();
+            //    config.Filters.Add(new AuthorizeFilter(defaultAuthPolicy));
+            //});
+
+
+            // Globle Auth Builder
+            services.AddControllersWithViews();
         }
 
 

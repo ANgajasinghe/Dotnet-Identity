@@ -65,6 +65,7 @@ namespace Basic.Controllers
                 new Claim(ClaimTypes.Role,"Admin"),
                 new Claim(ClaimTypes.Email,"bob@bobMail.com"),
                 new Claim(ClaimTypes.DateOfBirth,"199805"),
+                new Claim("Friend","Good"),
                 new Claim("Test User Says","You Can Go!"),
             };
 

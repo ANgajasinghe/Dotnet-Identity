@@ -21,6 +21,7 @@ namespace Basic.AuthorizationRequirement
 
 
     // This is the handel the request
+    // Centralized location to manage our all requirement
     public class CustomeRequireClaimHandler : AuthorizationHandler<CustomeRequireClaim>
     {
         protected override Task HandleRequirementAsync(
@@ -39,6 +40,12 @@ namespace Basic.AuthorizationRequirement
 
     public static class AuthorizationPolicyBuilderExtensions 
     {
+        /// <summary>
+        /// Called to this method bt Startup.cs under => AuthorizationPolicyBuilder through RequireCustomeClaim
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="claimType"></param>
+        /// <returns></returns>
         public static AuthorizationPolicyBuilder RequireCustomeClaim(
             this AuthorizationPolicyBuilder builder, string claimType
             )
@@ -47,4 +54,6 @@ namespace Basic.AuthorizationRequirement
             return builder; 
         }
     }
+
+   
 }
