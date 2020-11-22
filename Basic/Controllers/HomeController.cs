@@ -20,6 +20,7 @@ namespace Basic.Controllers
         {
             _authorizationService = authorizationService; 
         }
+        [AllowAnonymous]
         public IActionResult Index() 
         {
             return View();
