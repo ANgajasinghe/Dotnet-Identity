@@ -1,4 +1,7 @@
 using Basic.AuthorizationRequirement;
+using Basic.CustomePolicyProvider;
+using Basic.Transform;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +30,7 @@ namespace Basic
                 {
                     configureOptions.Cookie.Name = "Nayanajith.Cookie";
                     configureOptions.LoginPath = "/Home/Autenticate";
+       
                 });
 
  
@@ -65,12 +69,18 @@ namespace Basic
 
             });
 
-
+            services.AddSingleton<IAuthorizationPolicyProvider, CustomeAuthorizationPolicyProvider>();
+            services.AddScoped<IAuthorizationHandler, SecurityLevelRequirementHandler>();
 
             services.AddScoped<IAuthorizationHandler, CustomeRequireClaimHandler>();
+        
 
             // added operation
             services.AddScoped<IAuthorizationHandler, CookieJarAuthorizationHandler>();
+
+
+
+            services.AddScoped<IClaimsTransformation, ClaimTransformation>();
 
             // Globle Auth Builder
             //services.AddControllersWithViews(config => 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Basic.CustomePolicyProvider;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,20 @@ namespace Basic.Controllers
             return View("Secret");
         }
 
+        [SecurityLevelAttribute(5)]
+        public IActionResult SecretLevel()
+        {
+            return View("Secret");
+        }
+
+        [SecurityLevelAttribute(10)]
+        public IActionResult SecretHigherLevel()
+        {
+            return View("Secret");
+        }
+
+
+
         /// <summary>
         /// Role is just a Claim and it legercy 
         /// </summary>
@@ -70,6 +85,7 @@ namespace Basic.Controllers
                 new Claim(ClaimTypes.Email,"bob@bobMail.com"),
                 new Claim(ClaimTypes.DateOfBirth,"199805"),
                 new Claim("Friend","Good"),
+                new Claim(DynamicPolicies.SecurityLevel,"7"),
                 new Claim("Test User Says","You Can Go!"),
             };
 
@@ -91,9 +107,9 @@ namespace Basic.Controllers
             AuthenticationProperties authenticationProperties = new()
             {
                 IssuedUtc = DateTime.UtcNow,
-                ExpiresUtc = DateTime.UtcNow.AddSeconds(30)
+                ExpiresUtc = DateTime.UtcNow.AddDays(1)
             };
-            HttpContext.SignInAsync(userPrinciple,a);
+            HttpContext.SignInAsync(userPrinciple,authenticationProperties);
 
             return RedirectToAction("Index");
         }
