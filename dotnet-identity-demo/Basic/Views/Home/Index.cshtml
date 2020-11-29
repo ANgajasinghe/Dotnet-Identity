@@ -1,0 +1,25 @@
+﻿<h1>New Value</h1>
+
+
+
+@*simple access checks*@
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h1>This User Is Authenticated</h1>
+}
+else
+{
+    <h1>This User Is NOT Authenticated</h1>
+}
+
+
+
+
+@using Microsoft.AspNetCore.Authorization;
+@inject IAuthorizationService authorization
+
+@if ((await authorization.AuthorizeAsync(User, "Claim.Dob")).Succeeded)
+{
+    <h1> user has Date of Birth </h1>
+}
