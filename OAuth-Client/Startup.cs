@@ -59,9 +59,10 @@ namespace OAuth_Client
                         }
                     };
 
-                    services.AddHttpClient();
+                    
                     
                 });
+            services.AddHttpClient();
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
         }
