@@ -73,7 +73,7 @@ namespace IdentityServer
 
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true,
-
+                    //https://localhost:44322/
                     RedirectUris = { "https://localhost:44322/signin-oidc" },
                     PostLogoutRedirectUris = { "https://localhost:44322/Home/Index" },
 
@@ -88,6 +88,10 @@ namespace IdentityServer
                     // puts all the claims in the id token
                     //AlwaysIncludeUserClaimsInIdToken = true,
                     AllowOfflineAccess = true,
+
+
+
+                    // User feedback validation message screen enabale if you want when you creationg your application
                     RequireConsent = false,
                 },
   //              new Client {
