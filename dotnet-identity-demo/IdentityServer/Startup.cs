@@ -19,6 +19,7 @@ namespace IdentityServer
             services.AddIdentityServer()
                 .AddInMemoryApiScopes(Configuration.GetApiScopes())
                 .AddInMemoryApiResources(Configuration.GetApis())
+                .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
                 .AddInMemoryClients(Configuration.GetClients())
                 .AddDeveloperSigningCredential();
 

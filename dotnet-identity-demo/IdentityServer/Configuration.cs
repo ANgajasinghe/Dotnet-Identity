@@ -11,7 +11,7 @@ namespace IdentityServer
             new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                //new IdentityResources.Profile(),
+                new IdentityResources.Profile(),
                 new IdentityResource
                 {
                     Name = "rc.scope",
@@ -43,13 +43,18 @@ namespace IdentityServer
         }
 
         public static IEnumerable<ApiResource> GetApis() =>
+            // Two typw of scopes have 1 = Api , 2 = Roal and Claims 
             new List<ApiResource> {
                 new ApiResource("ApiOne","Demo Api")
                 {
                     ApiSecrets =  { new Secret("client_secret".ToSha256()) },
                     Scopes = { "ApiOne" }
-                }
-                // new ApiResource("ApiTwo", new string[] { "rc.api.garndma" }),
+                },
+                new ApiResource("ApiTwo","Demo Two")
+                {
+                    ApiSecrets =  { new Secret("client_secret_mvc".ToSha256()) },
+                    Scopes = {  "ApiOne","ApiTwo", IdentityServerConstants.StandardScopes.OpenId }
+                },
             };
 
         public static IEnumerable<Client> GetClients() =>
@@ -62,29 +67,29 @@ namespace IdentityServer
 
                     AllowedScopes = { "ApiOne" }
                 },
-  //              new Client {
-  //                  ClientId = "client_id_mvc",
-  //                  ClientSecrets = { new Secret("client_secret_mvc".ToSha256()) },
+                new Client {
+                    ClientId = "client_id_mvc",
+                    ClientSecrets = { new Secret("client_secret_mvc".ToSha256()) },
 
-  //                  AllowedGrantTypes = GrantTypes.Code,
-  //                  RequirePkce = true,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
 
-  //                  RedirectUris = { "https://localhost:44322/signin-oidc" },
-  //                  PostLogoutRedirectUris = { "https://localhost:44322/Home/Index" },
+                    RedirectUris = { "https://localhost:44322/signin-oidc" },
+                    PostLogoutRedirectUris = { "https://localhost:44322/Home/Index" },
 
-  //                  AllowedScopes = {
-  //                      "ApiOne",
-  //                      "ApiTwo",
-  //                      IdentityServerConstants.StandardScopes.OpenId,
-  //                      //IdentityServerConstants.StandardScopes.Profile,
-  //                      "rc.scope",
-  //                  },
+                    AllowedScopes = {
+                        "ApiOne",
+                        "ApiTwo",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        //"rc.scope",
+                    },
 
-  //                  // puts all the claims in the id token
-  //                  //AlwaysIncludeUserClaimsInIdToken = true,
-  //                  AllowOfflineAccess = true,
-  //                  RequireConsent = false,
-  //              },
+                    // puts all the claims in the id token
+                    //AlwaysIncludeUserClaimsInIdToken = true,
+                    AllowOfflineAccess = true,
+                    RequireConsent = false,
+                },
   //              new Client {
   //                  ClientId = "client_id_js",
 
