@@ -58,6 +58,8 @@ namespace OAuth_Client
                             return Task.CompletedTask;
                         }
                     };
+
+                    services.AddHttpClient();
                     
                 });
             services.AddControllersWithViews()
