@@ -53,7 +53,7 @@ namespace MvcClient
                     //config.Scope.Add("ApiTwo");
 
                     // this is for refresh token 
-                    //config.Scope.Add("offline_access");
+                    config.Scope.Add("offline_access");
 
                 });
 
