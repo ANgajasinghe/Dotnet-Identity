@@ -11,7 +11,11 @@ namespace IdentityServer
             new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile(),
+                //new IdentityResources.Profile(),
+
+                // Uou need to add all Custome clames here or not cliwnt can not access that 
+
+                // you have to add your claims here
                 new IdentityResource
                 {
                     Name = "rc.scope",
@@ -45,10 +49,11 @@ namespace IdentityServer
         public static IEnumerable<ApiResource> GetApis() =>
             // Two typw of scopes have 1 = Api , 2 = Roal and Claims 
             new List<ApiResource> {
-                new ApiResource("ApiOne","Demo Api")
+                new ApiResource("ApiOne",new string[]{"rc.api.garndma"})
                 {
                     ApiSecrets =  { new Secret("client_secret".ToSha256()) },
-                    Scopes = { "ApiOne" }
+                    // Set Scope for api
+                    Scopes = { "ApiOne"}
                 },
                 new ApiResource("ApiTwo","Demo Two")
                 {
@@ -81,12 +86,14 @@ namespace IdentityServer
                         "ApiOne",
                         "ApiTwo",
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        //"rc.scope",
+                        //IdentityServerConstants.StandardScopes.Profile,
+                        "rc.scope",
                     },
 
-                    // puts all the claims in the id token
-                    //AlwaysIncludeUserClaimsInIdToken = true,
+                    // puts all the claims in the id token  and this can be bigger token other - THIS will lead us to two round trip and smaller token 
+                    // AlwaysIncludeUserClaimsInIdToken = true,
+
+                    // for refresh token 
                     AllowOfflineAccess = true,
 
 

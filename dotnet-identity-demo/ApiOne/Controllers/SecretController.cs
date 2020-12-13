@@ -14,6 +14,8 @@ namespace ApiOne.Controllers
         [Authorize]
         public string Index() 
         {
+            // This Token not only for limited APIs But for all
+            var claims = User.Claims.ToList();
             return "Sectet message from ApiOne";
         }
     }

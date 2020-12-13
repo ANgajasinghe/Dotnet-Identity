@@ -22,6 +22,8 @@ namespace MvcClient
                 .AddCookie("Cookie")
                 // This will retrive the open id and it know how to communicate with the server
                 // This will add profile scope and openId scope
+
+                 // This Token not only for limited APIs But for all----
                 .AddOpenIdConnect("oidc", config => {
                     config.Authority = "https://localhost:44377/";
                     config.ClientId = "client_id_mvc";
@@ -31,21 +33,26 @@ namespace MvcClient
                     config.ResponseType = "code";
                    // config.SignedOutCallbackPath = "/Home/Index";
 
-                    // configure cookie claim mapping
-                   // config.ClaimActions.DeleteClaim("amr");
-                    //config.ClaimActions.DeleteClaim("s_hash");
-                   // config.ClaimActions.MapUniqueJsonKey("RawCoding.Grandma", "rc.garndma");
+                    // configure cookie claim mapping 
+                    // Givingr you to access to configuare your claims
+                       config.ClaimActions.DeleteClaim("amr");
+                       config.ClaimActions.DeleteClaim("s_hash");
+                       config.ClaimActions.MapUniqueJsonKey("RawCoding.Grandma", "rc.garndma");
+
 
                     // two trips to load claims in to the cookie
-                    // but the id token is smaller !
-                    //config.GetClaimsFromUserInfoEndpoint = true;
+                    // but the id token is smaller ! Or else id token is bigger 
+                    config.GetClaimsFromUserInfoEndpoint = true;
 
                     // configure scope
-                    //config.Scope.Clear();
-                    //config.Scope.Add("openid");
-                   // config.Scope.Add("rc.scope");
-                    //config.Scope.Add("ApiOne");
+                    config.Scope.Clear();
+                    config.Scope.Add("openid");
+                    //config.Scope.Add("profile");
+                    config.Scope.Add("rc.scope");
+                    config.Scope.Add("ApiOne");
                     //config.Scope.Add("ApiTwo");
+
+                    // this is for refresh token 
                     //config.Scope.Add("offline_access");
 
                 });
